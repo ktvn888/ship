@@ -1,0 +1,747 @@
+<html style="margin:0;padding:0;">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+(function(){
+  var s = document.createElement('style');
+  s.textContent = ':root{--bg:#202024;--card:#2a2a2f;--text:#e8e5df;--muted:#9a978f;--accent:#c47046;--accent-soft:rgba(196,112,70,.14);--accent2:#7ba8b8;--accent2-soft:rgba(123,168,184,.14);--xanh:#10b981;--xanh-soft:rgba(16,185,129,.14);--grab:#00b14f;--grab-soft:rgba(0,177,79,.14);--success:#22c55e;--success-soft:rgba(34,197,94,.12);--danger:#ef4444;--danger-soft:rgba(239,68,68,.12);--warning:#eab308;--warning-soft:rgba(234,179,8,.12);--pink:#ec4899;--purple:#a855f7;--purple-soft:rgba(168,85,247,.12);--cod:#f59e0b;--cod-soft:rgba(245,158,11,.12);--border:rgba(232,229,223,.12)}.reveal{opacity:0;transform:translateY(20px);animation:fadeUp .6s ease forwards}.reveal:nth-child(2){animation-delay:.1s}.reveal:nth-child(3){animation-delay:.2s}.reveal:nth-child(4){animation-delay:.3s}@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}.input-field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.btn-primary{transition:all .2s ease}.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(196,112,70,.3)}.btn-secondary{transition:all .2s ease}.btn-secondary:hover{border-color:var(--accent);color:var(--text)}.history-row{transition:background .15s ease}.history-row:hover{background:rgba(123,168,184,.08)}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type=number]{-moz-appearance:textfield}.radio-option{transition:all .15s ease;cursor:pointer}.radio-option:hover{border-color:var(--accent)}.radio-option.active{border-color:var(--accent);background:var(--accent-soft)}.radio-option.active .radio-dot{background:var(--accent)}.radio-dot{transition:all .15s ease}.summary-card{transition:transform .2s ease,box-shadow .2s ease}.summary-card:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.15)}';
+  document.head.appendChild(s);
+})();
+</script>
+<div style="background-color:transparent;box-sizing:border-box;">
+  <div style="color:var(--text);font-family:'Sora',sans-serif;background:radial-gradient(1200px 600px at 80% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%), var(--bg);min-height:100%;">
+    <div class="max-w-5xl mx-auto px-6 py-10">
+      
+      <!-- Header -->
+      <div class="reveal mb-10">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-soft));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13" rx="2"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div>
+            <p style="font-family:monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">CÔNG CỤ TÍNH TOÁN</p>
+            <h1 class="text-3xl font-bold" style="color:var(--text);letter-spacing:-0.02em;line-height:1.2;">Tính Phí Ship & Tiền Mặt Cuối Ngày</h1>
+          </div>
+        </div>
+        <p style="color:var(--muted);max-width:650px;" class="text-sm mt-2">Nhập từng chuyến (bao gồm tiền hàng COD nếu có) → Chỉ nhập tiền đầu ca → Hệ thống tự tính tiền mặt cuối ngày nên có.</p>
+      </div>
+
+      <!-- ===== PHẦN 1: NHẬP CHUYẾN ĐƠN ===== -->
+      <div class="reveal rounded-2xl p-6 mb-6" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.2);">
+        <h2 class="text-lg font-semibold mb-5" style="color:var(--text);">
+          <span style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Nhập Chuyến Đơn
+          </span>
+        </h2>
+        
+        <!-- Chọn loại app -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium mb-3" style="color:var(--muted);">Chọn ứng dụng</label>
+          <div class="grid grid-cols-2 gap-3" style="max-width:400px;">
+            <div class="radio-option rounded-xl p-4" style="border:1px solid var(--border);background:var(--bg);" onclick="chonApp('xanh', this)">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="radio-dot" style="width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;"></div>
+                <div>
+                  <div style="font-weight:600;color:var(--xanh);">Xanh SM / Express</div>
+                  <div style="font-size:11px;color:var(--muted);">Có thể thu tiền hàng COD</div>
+                </div>
+              </div>
+            </div>
+            <div class="radio-option rounded-xl p-4" style="border:1px solid var(--border);background:var(--bg);" onclick="chonApp('grab', this)">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="radio-dot" style="width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;"></div>
+                <div>
+                  <div style="font-weight:600;color:var(--grab);">Grab</div>
+                  <div style="font-size:11px;color:var(--muted);">GrabBike / GrabCar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="loaiApp" value="">
+        </div>
+
+        <!-- Giá cước và giá ròng -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Giá cước ship (đồng)</label>
+            <input type="number" id="giaCuoc" placeholder="Ví dụ: 50000" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;" oninput="tinhToan()">
+            <p class="text-xs mt-2" style="color:var(--muted);">Giá ship app hiển thị/thu khách</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Giá ròng ship (đồng)</label>
+            <input type="number" id="giaRong" placeholder="Ví dụ: 40000" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;" oninput="tinhToan()">
+            <p class="text-xs mt-2" style="color:var(--muted);">Số tiền ship thực tế bạn nhận được</p>
+          </div>
+        </div>
+
+        <!-- Tiền hàng thu hộ (COD) - chỉ hiện khi chọn Xanh -->
+        <div class="mb-5" id="tienHangGroup" style="display:none;">
+          <label class="block text-sm font-medium mb-2" style="color:var(--cod);">
+            <span style="display:inline-flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              Tiền hàng thu hộ COD (đồng)
+            </span>
+          </label>
+          <input type="number" id="tienHang" placeholder="Tiền hàng khách trả tiền mặt" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;max-width:400px;" oninput="tinhToan()">
+          <p class="text-xs mt-2" style="color:var(--muted);">Đơn Xanh Express: thu tiền hàng COD, tiền ship app trả thẻ/ví</p>
+        </div>
+
+        <!-- Phương thức thanh toán -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium mb-3" style="color:var(--muted);">Phương thức khách trả tiền ship</label>
+          <div class="grid grid-cols-3 gap-3" style="max-width:650px;">
+            <div class="radio-option active rounded-xl p-3.5" style="border:1px solid var(--border);background:var(--bg);" onclick="chonThanhToan('tienmat', this)">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="radio-dot active" style="width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;background:var(--accent);"></div>
+                <div>
+                  <div style="font-weight:600;font-size:13px;">Tiền mặt</div>
+                  <div style="font-size:10px;color:var(--muted);">Khách trả tiền mặt</div>
+                </div>
+              </div>
+            </div>
+            <div class="radio-option rounded-xl p-3.5" style="border:1px solid var(--border);background:var(--bg);" onclick="chonThanhToan('ck', this)">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="radio-dot" style="width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;"></div>
+                <div>
+                  <div style="font-weight:600;font-size:13px;">Chuyển khoản</div>
+                  <div style="font-size:10px;color:var(--muted);">Khách CK cá nhân</div>
+                </div>
+              </div>
+            </div>
+            <div class="radio-option rounded-xl p-3.5" style="border:1px solid var(--border);background:var(--bg);" onclick="chonThanhToan('the', this)">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="radio-dot" style="width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;"></div>
+                <div>
+                  <div style="font-weight:600;font-size:13px;">Thẻ / Ví app</div>
+                  <div style="font-size:10px;color:var(--muted);">Khách quẹt thẻ / ví app</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="phuongThuc" value="tienmat">
+        </div>
+
+        <!-- Các trường nhập thêm - động theo phương thức -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div id="khachTienMatGroup">
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Số tiền khách đưa (nếu tiền mặt)</label>
+            <input type="number" id="tienKhachDua" placeholder="Khách đưa bao nhiêu tiền mặt?" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;" oninput="tinhToan()">
+            <p class="text-xs mt-2" style="color:var(--muted);">Để tính tiền thừa phải trả lại khách</p>
+          </div>
+          <div id="khachCKGroup" style="display:none;">
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Số tiền khách chuyển khoản</label>
+            <input type="number" id="tienKhachCK" placeholder="Số tiền khách CK vào tài khoản bạn" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;" oninput="tinhToan()">
+            <p class="text-xs mt-2" style="color:var(--muted);">Nếu CK thừa giá cước = tự động tính là tip</p>
+          </div>
+          <div id="khachTheGroup" style="display:none;">
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Thẻ / Ví app</label>
+            <div class="px-4 py-3 rounded-xl" style="background:var(--purple-soft);border:1px dashed var(--purple);color:var(--purple);font-size:13px;">
+              <span style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+                Khách trả bằng thẻ/ví app → Tiền ship không qua tay bạn
+              </span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--muted);">Tiền tip khách cho thêm (đồng)</label>
+            <input type="number" id="tienTip" placeholder="Nếu khách có tip thêm" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;" oninput="tinhToan()">
+            <p class="text-xs mt-2" style="color:var(--muted);">Tiền tip riêng (không tính vào giá cước)</p>
+          </div>
+        </div>
+
+        <!-- Kết quả nhanh chuyến đơn -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5">
+          <div class="rounded-lg p-3 text-center" style="background:var(--bg);border:1px solid var(--border);">
+            <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;">% App</div>
+            <div style="color:var(--accent);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;" id="quickApp">—</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:var(--bg);border:1px solid var(--border);">
+            <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;">% Bạn</div>
+            <div style="color:var(--accent2);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;" id="quickBan">—</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:var(--bg);border:1px solid var(--border);">
+            <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;" id="quickTraLabel">Trả khách</div>
+            <div style="color:var(--warning);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;" id="quickTra">—</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:var(--bg);border:1px solid var(--border);">
+            <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;">Tiền hàng</div>
+            <div style="color:var(--cod);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;" id="quickHang">—</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:var(--bg);border:1px solid var(--border);">
+            <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;">Tip</div>
+            <div style="color:var(--pink);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;" id="quickTip">—</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button onclick="luuLichSu()" class="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm" style="background:var(--accent);color:#fff;border:none;cursor:pointer;">
+            <span style="display:inline-flex;align-items:center;gap:6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+              Thêm chuyến vào lịch sử
+            </span>
+          </button>
+          <button onclick="xoaNhapLieu()" class="btn-secondary px-5 py-2.5 rounded-xl font-semibold text-sm" style="background:transparent;color:var(--muted);border:1px solid var(--border);cursor:pointer;">
+            <span style="display:inline-flex;align-items:center;gap:6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3,6 5,6 21,6"/>
+                <path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/>
+              </svg>
+              Xóa form
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== PHẦN 2: TỔNG HỢP CUỐI NGÀY ===== -->
+      <div class="reveal rounded-2xl p-6 mb-6" style="background:linear-gradient(135deg,var(--accent-soft),transparent);border:1px solid var(--accent);box-shadow:0 2px 12px rgba(196,112,70,.1);">
+        <h2 class="text-lg font-semibold mb-5" style="color:var(--text);">
+          <span style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+              <path d="M3 3v18h18"/>
+              <path d="M7 14l4-4 4 4 5-5"/>
+            </svg>
+            Tổng Hợp Cuối Ngày
+          </span>
+        </h2>
+
+        <!-- Chỉ nhập tiền đầu ca -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-2" style="color:var(--text);">
+            <span style="display:inline-flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+              </svg>
+              Tiền đầu ca mang ra (đồng)
+            </span>
+          </label>
+          <input type="number" id="tienDauCa" placeholder="Nhập số tiền bạn mang ra khi bắt đầu ca" class="input-field w-full px-4 py-3 rounded-xl text-lg" style="background:var(--card);border:1px solid var(--border);color:var(--text);font-variant-numeric:tabular-nums;max-width:400px;" oninput="tinhTongHop()">
+          <p class="text-xs mt-2" style="color:var(--muted);">✓ Chỉ cần nhập tiền đầu ca, hệ thống tự tính tiền mặt cuối ngày nên có</p>
+        </div>
+
+        <!-- Các thẻ tổng hợp chi tiết -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--cod);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng tiền hàng COD</div>
+            </div>
+            <div style="color:var(--cod);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTienHang">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="soChuyenHang">0 chuyến</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--accent2);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng tiền ròng ship</div>
+            </div>
+            <div style="color:var(--accent2);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTienRong">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="soChuyenRong">0 chuyến</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng tiền mặt thu</div>
+            </div>
+            <div style="color:var(--accent);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTienMat">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;">Ship + Tiền hàng</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--purple);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng tiền CK</div>
+            </div>
+            <div style="color:var(--purple);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTienCK">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="soChuyenCK">0 chuyến</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--warning);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng trả lại khách</div>
+            </div>
+            <div style="color:var(--warning);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTraKhach">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;">Tiền thừa trả khách</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--pink);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng tiền tip</div>
+            </div>
+            <div style="color:var(--pink);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongTip">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="soChuyenTip">0 chuyến có tip</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--text);opacity:0.6;"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Tổng số chuyến</div>
+            </div>
+            <div style="color:var(--text);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;" id="tongSoChuyen">0 chuyến</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="chiTietApp">—</div>
+          </div>
+
+          <div class="summary-card rounded-xl p-4" style="background:var(--card);border:1px solid var(--border);border-top:3px solid var(--success);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--success);"></div>
+              <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">💰 Tiền mặt cuối ngày nên có</div>
+            </div>
+            <div style="color:var(--success);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;" id="tienCuoiNgay">0 đ</div>
+            <div style="color:var(--muted);font-size:10px;margin-top:2px;" id="congThucTienMat">= Đầu ca + Tiền mặt thu − Trả khách</div>
+          </div>
+        </div>
+
+        <!-- Kết quả cuối cùng -->
+        <div class="rounded-xl p-6" style="background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,var(--accent2)));">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <div style="color:rgba(255,255,255,.85);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;">Tổng thu nhập hôm nay chạy ship</div>
+          </div>
+          <div style="color:#fff;font-size:42px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;" id="tongThuNhap">0 đ</div>
+          <div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:6px;" id="congThucThuNhap">= Tổng tiền ròng + Tổng tiền tip</div>
+        </div>
+      </div>
+
+      <!-- ===== PHẦN 3: LỊCH SỬ CÁC CHUYẾN ===== -->
+      <div class="reveal rounded-2xl p-6" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <h2 class="text-lg font-semibold" style="color:var(--text);">
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              Lịch Sử Các Chuyến
+            </span>
+          </h2>
+          <button onclick="xoaLichSu()" id="btnXoaLS" class="btn-secondary px-3 py-1.5 rounded-lg text-xs font-medium" style="background:transparent;color:var(--muted);border:1px solid var(--border);cursor:pointer;display:none;">
+            Xóa tất cả
+          </button>
+        </div>
+        <p class="text-xs mb-4" style="color:var(--muted);">Dữ liệu được dùng để tính tổng hợp phía trên</p>
+
+        <div id="lichSuContainer">
+          <div id="lichSuTrong" class="text-center py-10" style="color:var(--muted);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.4;margin:0 auto 12px;">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <p class="text-sm">Chưa có chuyến nào</p>
+            <p class="text-xs mt-1" style="opacity:0.7;">Nhập thông tin chuyến và nhấn "Thêm chuyến vào lịch sử"</p>
+          </div>
+          <div id="bangLichSu" style="display:none;overflow-x:auto;">
+            <table class="w-full text-sm" style="min-width:880px;">
+              <thead>
+                <tr style="color:var(--muted);border-bottom:1px solid var(--border);" class="text-xs uppercase tracking-wide">
+                  <th class="text-left pb-3 font-medium" style="width:30px;">#</th>
+                  <th class="text-left pb-3 font-medium">App</th>
+                  <th class="text-right pb-3 font-medium">Giá cước</th>
+                  <th class="text-right pb-3 font-medium">Giá ròng</th>
+                  <th class="text-right pb-3 font-medium">Tiền hàng</th>
+                  <th class="text-center pb-3 font-medium">% App</th>
+                  <th class="text-center pb-3 font-medium">PTTT</th>
+                  <th class="text-right pb-3 font-medium">Tiền mặt</th>
+                  <th class="text-right pb-3 font-medium">Trả khách</th>
+                  <th class="text-right pb-3 font-medium">CK</th>
+                  <th class="text-right pb-3 font-medium">Tip</th>
+                  <th class="text-center pb-3 font-medium" style="width:40px;"></th>
+                </tr>
+              </thead>
+              <tbody id="bodyLichSu" style="color:var(--text);font-variant-numeric:tabular-nums;">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-10 pt-6 text-center" style="border-top:1px solid var(--border);">
+        <p class="text-xs" style="color:var(--muted);">Dữ liệu lịch sử được lưu trên trình duyệt của bạn</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var history = JSON.parse(localStorage.getItem('shipFeeHistory_v5') || '[]');
+  renderHistory();
+  tinhTongHop();
+})();
+
+function formatNumber(num) {
+  if (num === null || num === undefined || isNaN(num)) return '0';
+  return Math.round(num).toLocaleString('vi-VN');
+}
+
+function formatPercent(num) {
+  if (num === null || num === undefined || isNaN(num) || !isFinite(num)) return '—';
+  return num.toFixed(1) + '%';
+}
+
+function chonApp(app, el) {
+  document.querySelectorAll('.radio-option').forEach(function(opt) {
+    if (opt.querySelector('.radio-dot') && opt.closest('.grid') === el.closest('.grid')) {
+      opt.classList.remove('active');
+      opt.querySelector('.radio-dot').style.background = 'transparent';
+    }
+  });
+  el.classList.add('active');
+  el.querySelector('.radio-dot').style.background = 'var(--accent)';
+  document.getElementById('loaiApp').value = app;
+  
+  // Hiện/ẩn trường tiền hàng COD
+  document.getElementById('tienHangGroup').style.display = app === 'xanh' ? 'block' : 'none';
+  if (app !== 'xanh') {
+    document.getElementById('tienHang').value = '';
+  }
+  tinhToan();
+}
+
+function chonThanhToan(pt, el) {
+  document.querySelectorAll('.radio-option').forEach(function(opt) {
+    if (opt.querySelector('.radio-dot') && opt.closest('.grid') === el.closest('.grid')) {
+      opt.classList.remove('active');
+      opt.querySelector('.radio-dot').style.background = 'transparent';
+    }
+  });
+  el.classList.add('active');
+  el.querySelector('.radio-dot').style.background = 'var(--accent)';
+  document.getElementById('phuongThuc').value = pt;
+  
+  document.getElementById('khachTienMatGroup').style.display = pt === 'tienmat' ? 'block' : 'none';
+  document.getElementById('khachCKGroup').style.display = pt === 'ck' ? 'block' : 'none';
+  document.getElementById('khachTheGroup').style.display = pt === 'the' ? 'block' : 'none';
+  
+  document.getElementById('quickTraLabel').textContent = pt === 'tienmat' ? 'Trả khách' : (pt === 'ck' ? 'CK thừa' : 'Trả khách');
+  
+  tinhToan();
+}
+
+function tinhToan() {
+  var giaCuoc = parseFloat(document.getElementById('giaCuoc').value) || 0;
+  var giaRong = parseFloat(document.getElementById('giaRong').value) || 0;
+  var tienHang = parseFloat(document.getElementById('tienHang').value) || 0;
+  var tienKhachDua = parseFloat(document.getElementById('tienKhachDua').value) || 0;
+  var tienKhachCK = parseFloat(document.getElementById('tienKhachCK').value) || 0;
+  var tienTip = parseFloat(document.getElementById('tienTip').value) || 0;
+  var phuongThuc = document.getElementById('phuongThuc').value;
+  var loaiApp = document.getElementById('loaiApp').value;
+  
+  // Tỷ lệ %
+  if (giaCuoc > 0 && giaRong > 0) {
+    var chenhLech = giaCuoc - giaRong;
+    var phanTramApp = (chenhLech / giaCuoc) * 100;
+    var phanTramBan = (giaRong / giaCuoc) * 100;
+    document.getElementById('quickApp').textContent = formatPercent(phanTramApp);
+    document.getElementById('quickBan').textContent = formatPercent(phanTramBan);
+  } else {
+    document.getElementById('quickApp').textContent = '—';
+    document.getElementById('quickBan').textContent = '—';
+  }
+  
+  // Tiền hàng COD
+  document.getElementById('quickHang').textContent = tienHang > 0 ? formatNumber(tienHang) + ' đ' : '—';
+  
+  // Tiền trả khách / CK thừa
+  if (phuongThuc === 'tienmat' && tienKhachDua > 0 && giaCuoc > 0) {
+    var tienTraKhach = tienKhachDua - giaCuoc;
+    document.getElementById('quickTra').textContent = formatNumber(tienTraKhach) + ' đ';
+    document.getElementById('quickTra').style.color = tienTraKhach >= 0 ? 'var(--warning)' : 'var(--danger)';
+  } else if (phuongThuc === 'ck' && tienKhachCK > 0 && giaCuoc > 0) {
+    var chenhLechCK = tienKhachCK - giaCuoc;
+    document.getElementById('quickTra').textContent = (chenhLechCK >= 0 ? '+' : '') + formatNumber(chenhLechCK) + ' đ';
+    document.getElementById('quickTra').style.color = chenhLechCK >= 0 ? 'var(--success)' : 'var(--danger)';
+  } else if (phuongThuc === 'the') {
+    document.getElementById('quickTra').textContent = '—';
+    document.getElementById('quickTra').style.color = 'var(--purple)';
+  } else {
+    document.getElementById('quickTra').textContent = '—';
+    document.getElementById('quickTra').style.color = 'var(--warning)';
+  }
+  
+  // Tổng tip
+  var tongTipQuick = tienTip;
+  if (phuongThuc === 'ck' && tienKhachCK > 0 && giaCuoc > 0) {
+    tongTipQuick += Math.max(0, tienKhachCK - giaCuoc);
+  }
+  document.getElementById('quickTip').textContent = tongTipQuick > 0 ? formatNumber(tongTipQuick) + ' đ' : '—';
+}
+
+function luuLichSu() {
+  var loaiApp = document.getElementById('loaiApp').value;
+  var giaCuoc = parseFloat(document.getElementById('giaCuoc').value) || 0;
+  var giaRong = parseFloat(document.getElementById('giaRong').value) || 0;
+  var tienHang = parseFloat(document.getElementById('tienHang').value) || 0;
+  var phuongThuc = document.getElementById('phuongThuc').value;
+  var tienKhachDua = parseFloat(document.getElementById('tienKhachDua').value) || 0;
+  var tienKhachCK = parseFloat(document.getElementById('tienKhachCK').value) || 0;
+  var tienTip = parseFloat(document.getElementById('tienTip').value) || 0;
+  
+  if (!loaiApp) {
+    alert('Vui lòng chọn loại ứng dụng!');
+    return;
+  }
+  if (giaCuoc <= 0 || giaRong <= 0) {
+    alert('Vui lòng nhập đầy đủ giá cước và giá ròng!');
+    return;
+  }
+  
+  var chenhLech = giaCuoc - giaRong;
+  var phanTramApp = (chenhLech / giaCuoc) * 100;
+  
+  // Tính các khoản theo phương thức
+  var tienTraKhach = 0;
+  var tienMatThuShip = 0;
+  var tienCKThu = 0;
+  var tipFromCK = 0;
+  
+  if (phuongThuc === 'tienmat') {
+    tienMatThuShip = giaCuoc; // Tiền mặt thu từ ship
+    if (tienKhachDua > 0) {
+      tienTraKhach = Math.max(0, tienKhachDua - giaCuoc);
+    }
+  } else if (phuongThuc === 'ck') {
+    tienCKThu = tienKhachCK > 0 ? tienKhachCK : giaCuoc;
+    tipFromCK = Math.max(0, tienKhachCK - giaCuoc);
+  }
+  // Thẻ/Ví app: không có tiền mặt, không có CK cá nhân
+  
+  // Tổng tiền mặt thu = tiền mặt ship + tiền hàng COD
+  var tongTienMatChuyen = tienMatThuShip + tienHang;
+  
+  var tongTip = tienTip + tipFromCK;
+  
+  var record = {
+    id: Date.now(),
+    loaiApp: loaiApp,
+    giaCuoc: giaCuoc,
+    giaRong: giaRong,
+    tienHang: tienHang,
+    phanTramApp: phanTramApp,
+    phuongThuc: phuongThuc,
+    tienKhachDua: tienKhachDua,
+    tienKhachCK: tienKhachCK,
+    tienTraKhach: tienTraKhach,
+    tienMatThuShip: tienMatThuShip,
+    tienCKThu: tienCKThu,
+    tongTienMatChuyen: tongTienMatChuyen,
+    tienTip: tienTip,
+    tipFromCK: tipFromCK,
+    tongTip: tongTip,
+    time: new Date().toLocaleString('vi-VN')
+  };
+  
+  var history = JSON.parse(localStorage.getItem('shipFeeHistory_v5') || '[]');
+  history.unshift(record);
+  localStorage.setItem('shipFeeHistory_v5', JSON.stringify(history));
+  
+  renderHistory();
+  tinhTongHop();
+  
+  // Xóa form sau khi lưu
+  document.getElementById('giaCuoc').value = '';
+  document.getElementById('giaRong').value = '';
+  document.getElementById('tienHang').value = '';
+  document.getElementById('tienKhachDua').value = '';
+  document.getElementById('tienKhachCK').value = '';
+  document.getElementById('tienTip').value = '';
+  tinhToan();
+  
+  // Feedback
+  var btn = event.target.closest('button');
+  var originalText = btn.innerHTML;
+  btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>Đã thêm!</span>';
+  setTimeout(function(){ btn.innerHTML = originalText; }, 1200);
+}
+
+function xoaNhapLieu() {
+  document.getElementById('giaCuoc').value = '';
+  document.getElementById('giaRong').value = '';
+  document.getElementById('tienHang').value = '';
+  document.getElementById('tienKhachDua').value = '';
+  document.getElementById('tienKhachCK').value = '';
+  document.getElementById('tienTip').value = '';
+  tinhToan();
+}
+
+function xoaLichSu() {
+  if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử chuyến hôm nay?')) {
+    localStorage.removeItem('shipFeeHistory_v5');
+    renderHistory();
+    tinhTongHop();
+  }
+}
+
+function xoaMotGhi(id) {
+  var history = JSON.parse(localStorage.getItem('shipFeeHistory_v5') || '[]');
+  history = history.filter(function(item) { return item.id !== id; });
+  localStorage.setItem('shipFeeHistory_v5', JSON.stringify(history));
+  renderHistory();
+  tinhTongHop();
+}
+
+function renderHistory() {
+  var history = JSON.parse(localStorage.getItem('shipFeeHistory_v5') || '[]');
+  var lichSuTrong = document.getElementById('lichSuTrong');
+  var bangLichSu = document.getElementById('bangLichSu');
+  var bodyLichSu = document.getElementById('bodyLichSu');
+  var btnXoaLS = document.getElementById('btnXoaLS');
+  
+  if (history.length === 0) {
+    lichSuTrong.style.display = 'block';
+    bangLichSu.style.display = 'none';
+    btnXoaLS.style.display = 'none';
+    return;
+  }
+  
+  lichSuTrong.style.display = 'none';
+  bangLichSu.style.display = 'block';
+  btnXoaLS.style.display = 'inline-block';
+  
+  bodyLichSu.innerHTML = '';
+  history.forEach(function(item, index) {
+    var tr = document.createElement('tr');
+    tr.className = 'history-row';
+    tr.style.borderBottom = '1px solid var(--border)';
+    
+    var appColor = item.loaiApp === 'xanh' ? 'var(--xanh)' : 'var(--grab)';
+    var appBg = item.loaiApp === 'xanh' ? 'var(--xanh-soft)' : 'var(--grab-soft)';
+    var appName = item.loaiApp === 'xanh' ? 'Xanh' : 'Grab';
+    
+    var ptMap = { 'tienmat': 'TM', 'ck': 'CK', 'the': 'Thẻ' };
+    var ptColorMap = { 'tienmat': 'var(--accent)', 'ck': 'var(--purple)', 'the': 'var(--accent2)' };
+    var ptBgMap = { 'tienmat': 'var(--accent-soft)', 'ck': 'var(--purple-soft)', 'the': 'var(--accent2-soft)' };
+    var ptText = ptMap[item.phuongThuc];
+    var ptColor = ptColorMap[item.phuongThuc];
+    var ptBg = ptBgMap[item.phuongThuc];
+    
+    tr.innerHTML = 
+      '<td class="py-2.5 font-medium" style="color:var(--muted);font-size:12px;">' + (index + 1) + '</td>' +
+      '<td class="py-2.5"><span style="display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;background:' + appBg + ';color:' + appColor + ';">' + appName + '</span></td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;">' + formatNumber(item.giaCuoc) + '</td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--accent2);font-weight:600;">' + formatNumber(item.giaRong) + '</td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--cod);font-weight:600;">' + (item.tienHang > 0 ? formatNumber(item.tienHang) : '—') + '</td>' +
+      '<td class="py-2.5 text-center" style="font-size:12px;color:var(--accent);font-weight:600;">' + formatPercent(item.phanTramApp) + '</td>' +
+      '<td class="py-2.5 text-center"><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:' + ptBg + ';color:' + ptColor + ';font-weight:600;">' + ptText + '</span></td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--accent);">' + (item.tongTienMatChuyen > 0 ? formatNumber(item.tongTienMatChuyen) : '—') + '</td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--warning);">' + (item.tienTraKhach > 0 ? formatNumber(item.tienTraKhach) : '—') + '</td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--purple);">' + (item.tienCKThu > 0 ? formatNumber(item.tienCKThu) : '—') + '</td>' +
+      '<td class="py-2.5 text-right" style="font-size:13px;color:var(--pink);font-weight:600;">' + (item.tongTip > 0 ? formatNumber(item.tongTip) : '—') + '</td>' +
+      '<td class="py-2.5 text-center">' +
+        '<button onclick="xoaMotGhi(' + item.id + ')" style="background:transparent;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:6px;" onmouseover="this.style.color=\'var(--danger)\';this.style.background=\'var(--danger-soft)\'" onmouseout="this.style.color=\'var(--muted)\';this.style.background=\'transparent\'">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>' +
+        '</button>' +
+      '</td>';
+    bodyLichSu.appendChild(tr);
+  });
+}
+
+function tinhTongHop() {
+  var history = JSON.parse(localStorage.getItem('shipFeeHistory_v5') || '[]');
+  var tienDauCa = parseFloat(document.getElementById('tienDauCa').value) || 0;
+  
+  var tongTienHang = 0;
+  var tongTienRong = 0;
+  var tongTienMat = 0;
+  var tongTienCK = 0;
+  var tongTraKhach = 0;
+  var tongTip = 0;
+  var soChuyenXanh = 0;
+  var soChuyenGrab = 0;
+  var soChuyenTip = 0;
+  var soChuyenCK = 0;
+  var soChuyenHang = 0;
+  
+  history.forEach(function(item) {
+    tongTienHang += item.tienHang;
+    tongTienRong += item.giaRong;
+    tongTienMat += item.tongTienMatChuyen;
+    tongTienCK += item.tienCKThu;
+    tongTraKhach += item.tienTraKhach;
+    tongTip += item.tongTip;
+    
+    if (item.loaiApp === 'xanh') soChuyenXanh++;
+    else soChuyenGrab++;
+    
+    if (item.tongTip > 0) soChuyenTip++;
+    if (item.phuongThuc === 'ck') soChuyenCK++;
+    if (item.tienHang > 0) soChuyenHang++;
+  });
+  
+  var tongSoChuyen = history.length;
+  
+  // Tiền mặt cuối ngày nên có = Tiền đầu ca + Tổng tiền mặt thu − Tổng trả khách
+  var tienCuoiNgay = tienDauCa + tongTienMat - tongTraKhach;
+  
+  // Tổng thu nhập = Tổng tiền ròng + Tổng tiền tip
+  var tongThuNhap = tongTienRong + tongTip;
+  
+  // Cập nhật giao diện
+  document.getElementById('tongTienHang').textContent = formatNumber(tongTienHang) + ' đ';
+  document.getElementById('soChuyenHang').textContent = soChuyenHang + ' chuyến COD';
+  
+  document.getElementById('tongTienRong').textContent = formatNumber(tongTienRong) + ' đ';
+  document.getElementById('soChuyenRong').textContent = tongSoChuyen + ' chuyến';
+  
+  document.getElementById('tongTienMat').textContent = formatNumber(tongTienMat) + ' đ';
+  
+  document.getElementById('tongTienCK').textContent = formatNumber(tongTienCK) + ' đ';
+  document.getElementById('soChuyenCK').textContent = soChuyenCK + ' chuyến CK';
+  
+  document.getElementById('tongTraKhach').textContent = formatNumber(tongTraKhach) + ' đ';
+  
+  document.getElementById('tongTip').textContent = formatNumber(tongTip) + ' đ';
+  document.getElementById('soChuyenTip').textContent = soChuyenTip + ' chuyến có tip';
+  
+  document.getElementById('tongSoChuyen').textContent = tongSoChuyen + ' chuyến';
+  var chiTietApp = [];
+  if (soChuyenXanh > 0) chiTietApp.push('Xanh: ' + soChuyenXanh);
+  if (soChuyenGrab > 0) chiTietApp.push('Grab: ' + soChuyenGrab);
+  document.getElementById('chiTietApp').textContent = chiTietApp.length > 0 ? chiTietApp.join(' · ') : '—';
+  
+  // Tiền mặt cuối ngày nên có
+  document.getElementById('tienCuoiNgay').textContent = formatNumber(tienCuoiNgay) + ' đ';
+  if (tienDauCa > 0) {
+    document.getElementById('congThucTienMat').textContent = 
+      '= ' + formatNumber(tienDauCa) + ' + ' + formatNumber(tongTienMat) + ' − ' + formatNumber(tongTraKhach);
+  } else {
+    document.getElementById('congThucTienMat').textContent = 
+      '= Đầu ca + ' + formatNumber(tongTienMat) + ' (tiền mặt thu) − ' + formatNumber(tongTraKhach) + ' (trả khách)';
+  }
+  
+  // Tổng thu nhập
+  document.getElementById('tongThuNhap').textContent = formatNumber(tongThuNhap) + ' đ';
+  document.getElementById('congThucThuNhap').textContent = 
+    '= ' + formatNumber(tongTienRong) + ' (ròng) + ' + formatNumber(tongTip) + ' (tip)';
+}
+</script>
+</html>
